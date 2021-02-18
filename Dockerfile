@@ -16,6 +16,6 @@ RUN pacman -Syu --noconfirm
 RUN pacman -Sy --noconfirm sudo yay
 
 RUN echo '%wheel ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
-RUN useradd -m chend; usermod -a -G wheel chend
+RUN useradd -m user; usermod -a -G wheel user
 
-USER chend
+USER user
