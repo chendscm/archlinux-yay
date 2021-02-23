@@ -1,11 +1,19 @@
-FROM archlinux:base-devel
+FROM archlinux:base
 USER root
 RUN ls /usr/lib/sysusers.d/*.conf | /usr/share/libalpm/scripts/systemd-hook sysusers
 
 COPY remove-pkg-cache.hook /etc/pacman.d/hooks/
 
+COPY resolv.conf /etc
+
 COPY custom_repo.conf /
 RUN cat custom_repo.conf >> /etc/pacman.conf
+
+RUN pacman -Sy --noconfirm pacman-contrib
+RUN cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+RUN sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
+RUN rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+RUN pacman -Syyu --noconfirm
 
 RUN rm -rf /etc/pacman.d/gnupg
 RUN pacman-key --init
