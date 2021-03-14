@@ -1,4 +1,4 @@
-FROM archlinux:base
+FROM archlinux:base-devel
 
 # https://github.com/actions/virtual-environments/issues/2658
 # https://github.com/lxqt/lxqt-panel/pull/1562
